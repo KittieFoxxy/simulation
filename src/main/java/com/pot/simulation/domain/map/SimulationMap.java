@@ -47,7 +47,9 @@ public class SimulationMap {
         if (coordinate == null) {
             throw new NullPointerException("coordinate is null");
         }
-        entities.remove(coordinate, entity);
+        if (isWithinBounds(coordinate)) {
+            entities.remove(coordinate, entity);
+        }
     }
 
     public boolean contains(Entity entity) {
@@ -55,7 +57,10 @@ public class SimulationMap {
     }
 
     public Optional<Entity> getEntity(Coordinate coordinate) {
-        return Optional.ofNullable(entities.get(coordinate));
+        if (isWithinBounds(coordinate)) {
+            return Optional.ofNullable(entities.get(coordinate));
+        }
+        return Optional.empty();
     }
 
     public <T extends Entity> List<T> findEntities(Class<T> type) {
