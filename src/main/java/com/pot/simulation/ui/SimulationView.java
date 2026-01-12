@@ -27,9 +27,9 @@ public class SimulationView {
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        for (int i = 0; i < map.height(); i++) {
-            for (int j = 0; j < map.width(); j++) {
-                Coordinate c = new Coordinate(i, j);
+        for (int h = 0; h < map.height(); h++) {
+            for (int w = 0; w < map.width(); w++) {
+                Coordinate c = new Coordinate(w, h);
                 Entity entity = map.getEntity(c).orElse(null);
                 String sprite = getSprite(entity);
                 sb.append(" ").append(sprite);
@@ -58,12 +58,12 @@ public class SimulationView {
                 case Herbivore _ -> "\uD83D\uDC14";
                 case Carnivore _ -> "\uD83E\uDD8A";*/
                 // для запуска в терминале
-                case null ->   "░";
+                case null ->   "·";
                 case Rock _ -> "█";
-                case Grass _ -> "*";
-                case Tree _ -> "█";
-                case Herbivore _ -> "H";
-                case Carnivore _ -> "C";
+                case Grass _ -> "░";
+                case Tree _ -> "Y";
+                case Herbivore _ -> "○";
+                case Carnivore _ -> "Ѫ";
                 default -> throw new IllegalStateException("Unexpected value: " + entity);
         };
     }

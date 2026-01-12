@@ -26,7 +26,7 @@ public class SpawnAction extends BaseSpawnAction implements Action {
     public void execute() {
         List<Coordinate> emptyCoordinates = map.getEmptyCoordinates();
         Collections.shuffle(emptyCoordinates);
-        for (int x = 0; x < quantity; x++) {
+        for (int q = 0; q < quantity; q++) {
             spawn(entityType, map, emptyCoordinates);
         }
     }

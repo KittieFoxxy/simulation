@@ -32,9 +32,9 @@ public class SimulationMap {
 
     public List<Coordinate> getEmptyCoordinates() {
         List<Coordinate> emptyCoords = new ArrayList<>();
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                Coordinate c = new Coordinate(x, y);
+        for (int h = 0; h < height(); h++) {
+            for (int w = 0; w < width(); w++) {
+                Coordinate c = new Coordinate(w, h);
                 if (!entities.containsKey(c)) {
                     emptyCoords.add(c);
                 }
