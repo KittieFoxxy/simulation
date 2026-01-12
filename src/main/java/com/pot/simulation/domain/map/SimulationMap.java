@@ -26,7 +26,9 @@ public class SimulationMap {
             throw new IllegalArgumentException("entity is null");
         }
         if (isWithinBounds(coordinate)) {
-            entities.putIfAbsent(coordinate, entity);
+            entities.put(coordinate, entity);
+        } else {
+            throw new IllegalArgumentException("coordinate is out of bounds");
         }
     }
 
@@ -49,6 +51,8 @@ public class SimulationMap {
         }
         if (isWithinBounds(coordinate)) {
             entities.remove(coordinate, entity);
+        } else {
+            throw new IllegalArgumentException("coordinate is out of bounds");
         }
     }
 
@@ -59,8 +63,9 @@ public class SimulationMap {
     public Optional<Entity> getEntity(Coordinate coordinate) {
         if (isWithinBounds(coordinate)) {
             return Optional.ofNullable(entities.get(coordinate));
+        } else {
+            throw new IllegalArgumentException("coordinate is out of bounds");
         }
-        return Optional.empty();
     }
 
     public <T extends Entity> List<T> findEntities(Class<T> type) {
