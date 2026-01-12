@@ -51,12 +51,19 @@ public class SimulationView {
 
     private String getSprite(Entity entity) {
             return switch (entity) {
-                case null -> "⬜";
+                /*case null -> "⬜";
                 case Rock _ -> "⬛";
                 case Grass _ -> "\uD83D\uDFE9";
                 case Tree _ -> "\uD83C\uDF40";
                 case Herbivore _ -> "\uD83D\uDC14";
-                case Carnivore _ -> "\uD83E\uDD8A";
+                case Carnivore _ -> "\uD83E\uDD8A";*/
+                // для запуска в терминале
+                case null ->   "░";
+                case Rock _ -> "█";
+                case Grass _ -> "*";
+                case Tree _ -> "█";
+                case Herbivore _ -> "H";
+                case Carnivore _ -> "C";
                 default -> throw new IllegalStateException("Unexpected value: " + entity);
         };
     }
