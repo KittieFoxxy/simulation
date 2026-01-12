@@ -12,6 +12,12 @@ import com.pot.simulation.domain.map.SimulationMap;
 
 public class SimulationView {
 
+    private static final Grass GRASS = new Grass();
+    private static final Rock ROCK = new Rock();
+    private static final Tree TREE = new Tree();
+    private static final Herbivore HERBIVORE = new Herbivore();
+    private static final Carnivore CARNIVORE = new Carnivore();
+
     public void drawWorld(SimulationMap map) {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -34,11 +40,11 @@ public class SimulationView {
 
         // ЛЕГЕНДА ОБЪЕКТОВ можно сделать с использованием getSprite(), но лень
         sb.append("Обозначения: ")
-                .append("🟩 Трава  ")
-                .append("🟫 Дерево  ")
-                .append("⬛ Камень  ")
-                .append("🟨 Травоядное  ")
-                .append("🟥 Хищник\n");
+                .append(getSprite(GRASS)).append(" Трава  ")
+                .append(getSprite(TREE)).append(" Дерево  ")
+                .append(getSprite(ROCK)).append(" Камень  ")
+                .append(getSprite(HERBIVORE)).append(" Травоядное  ")
+                .append(getSprite(CARNIVORE)).append(" Хищник\n");
         sb.append("Старт/Продолжить - %s; Пауза - %s; Выход - %s;".formatted(InputHandler.START_SIMULATION, InputHandler.PAUSE_SIMULATION, InputHandler.STOP_SIMULATION));
         System.out.print(sb);
     }
@@ -48,9 +54,9 @@ public class SimulationView {
                 case null -> "⬜";
                 case Rock _ -> "⬛";
                 case Grass _ -> "\uD83D\uDFE9";
-                case Tree _ -> "\uD83D\uDFEB";
-                case Herbivore _ -> "\uD83D\uDFE8";
-                case Carnivore _ -> "\uD83D\uDFE5";
+                case Tree _ -> "\uD83C\uDF40";
+                case Herbivore _ -> "\uD83D\uDC14";
+                case Carnivore _ -> "\uD83E\uDD8A";
                 default -> throw new IllegalStateException("Unexpected value: " + entity);
         };
     }

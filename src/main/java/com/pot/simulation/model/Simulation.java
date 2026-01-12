@@ -37,10 +37,10 @@ public class Simulation {
     }
 
     public void nextTurn() {
-        view.drawWorld(map);
         if (paused) {
             return;
         }
+        view.drawWorld(map);
         for (Action action : turnActions) {
             action.execute();
         }
