@@ -29,6 +29,8 @@ public class Herbivore extends Creature {
                     makeStep(map, nextStep);
                 } else if (map.getEntity(nextStep).get() instanceof Grass grass) {
                     eat(map, nextStep, grass);
+                    setHungryLevel(-1);
+                    setHealth(HEALTH);
                 }
             }
         });
