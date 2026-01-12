@@ -11,10 +11,10 @@ import java.util.List;
 class BaseSpawnAction {
 
     protected void spawn(Class<? extends Entity> entityType, SimulationMap map, List<Coordinate> emptyCoordinates) {
-        Entity entity = EntityFactory.createEntity(entityType);
         if (emptyCoordinates.isEmpty()) {
             return;
         }
+        Entity entity = EntityFactory.createEntity(entityType);
         Coordinate candidate = emptyCoordinates.removeFirst();
         map.addEntity(candidate, entity);
         if (entity instanceof Creature creature) {
