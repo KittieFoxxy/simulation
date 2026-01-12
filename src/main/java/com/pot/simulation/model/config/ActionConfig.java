@@ -25,12 +25,6 @@ public record ActionConfig(SimulationMap map) {
                 new SpawnAction(map, Grass.class, (int) (0.1 * mapSize)),
                 new SpawnAction(map, Herbivore.class, (int) (0.1 * mapSize)),
                 new SpawnAction(map, Carnivore.class, (int) (0.1 * mapSize))
-                // для тестов
-//                new SpawnAction(map, Rock.class, (int) (0.1 * mapSize)),
-//                new SpawnAction(map, Tree.class, (int) (0.1 * mapSize)),
-//                new SpawnAction(map, Grass.class, 1),
-//                new SpawnAction(map, Herbivore.class, 2),
-//                new SpawnAction(map, Carnivore.class, 2)
         );
     }
 
