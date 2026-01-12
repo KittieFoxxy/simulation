@@ -19,12 +19,12 @@ public class Launcher {
         Command command = inputHandler.handleMenuInput();
         if (command == Command.START) {
             int[] size = inputHandler.handleSettingsInput();
-            SimulationMap map = new SimulationMap(size[0], size[1]);
-            ActionConfig actionsConfig = new ActionConfig(map);
+            SimulationMap simulationMap = new SimulationMap(size[0], size[1]);
+            ActionConfig actionsConfig = new ActionConfig(simulationMap);
             List<Action> initActions = actionsConfig.configureInitAction();
             List<Action> turnActions = actionsConfig.configureTurnAction();
             SimulationView view = new SimulationView();
-            simulation = new Simulation(map, view, initActions, turnActions);
+            simulation = new Simulation(simulationMap, view, initActions, turnActions);
             simulation.startSimulation();
             initSimulationController();
         }

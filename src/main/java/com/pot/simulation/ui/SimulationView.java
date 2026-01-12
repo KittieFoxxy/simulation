@@ -18,7 +18,7 @@ public class SimulationView {
     private static final Herbivore HERBIVORE = new Herbivore();
     private static final Carnivore CARNIVORE = new Carnivore();
 
-    public void drawWorld(SimulationMap map) {
+    public void drawWorld(SimulationMap simulationMap) {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception e) {
@@ -27,16 +27,16 @@ public class SimulationView {
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        for (int h = 0; h < map.height(); h++) {
-            for (int w = 0; w < map.width(); w++) {
+        for (int h = 0; h < simulationMap.height(); h++) {
+            for (int w = 0; w < simulationMap.width(); w++) {
                 Coordinate c = new Coordinate(w, h);
-                Entity entity = map.getEntity(c).orElse(null);
+                Entity entity = simulationMap.getEntity(c).orElse(null);
                 String sprite = getSprite(entity);
                 sb.append(" ").append(sprite);
             }
             sb.append("\n");
         }
-        sb.append("—".repeat(map.width() * 3)).append("\n");
+        sb.append("—".repeat(simulationMap.width() * 3)).append("\n");
 
         // ЛЕГЕНДА ОБЪЕКТОВ можно сделать с использованием getSprite(), но лень
         sb.append("Обозначения: ")

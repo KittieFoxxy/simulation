@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Simulation {
 
-    private final SimulationMap map;
+    private final SimulationMap simulationMap;
     private final SimulationView view;
     private final List<Action> initActions;
     private final List<Action> turnActions;
@@ -21,8 +21,8 @@ public class Simulation {
     private volatile boolean paused = false;
     private int currentActionIndex = 0;
 
-    public Simulation(SimulationMap map, SimulationView view, List<Action> initActions, List<Action> turnActions) {
-        this.map = map;
+    public Simulation(SimulationMap simulationMap, SimulationView view, List<Action> initActions, List<Action> turnActions) {
+        this.simulationMap = simulationMap;
         this.view = view;
         this.initActions = initActions;
         this.turnActions = turnActions;
@@ -40,7 +40,7 @@ public class Simulation {
         if (paused) {
             return;
         }
-        view.drawWorld(map);
+        view.drawWorld(simulationMap);
         for (Action action : turnActions) {
             action.execute();
         }

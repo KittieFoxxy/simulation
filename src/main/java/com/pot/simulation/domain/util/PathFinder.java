@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PathFinder {
 
-    List<Coordinate> find(Coordinate start, Coordinate end);
+    List<Coordinate> find(Coordinate start, Coordinate target);
 }

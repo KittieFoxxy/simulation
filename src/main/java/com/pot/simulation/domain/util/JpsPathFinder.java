@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-public record JpsPathFinder(SimulationMap map) implements PathFinder {
+public record JpsPathFinder(SimulationMap simulationMap) implements PathFinder {
 
     private static final Coordinate[] DIRECTIONS = {
             new Coordinate(0, 1), new Coordinate(0, -1), new Coordinate(1, 0), new Coordinate(-1, 0),
@@ -30,13 +30,13 @@ public record JpsPathFinder(SimulationMap map) implements PathFinder {
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
 
-            if (current.coord.equals(target)) return reconstructPath(current);
+            if (current.coordinate.equals(target)) return reconstructPath(current);
 
             for (Coordinate dir : DIRECTIONS) {
-                Coordinate jumpPoint = jump(current.coord, dir, target, map);
+                Coordinate jumpPoint = jump(current.coordinate, dir, target, simulationMap);
 
                 if (jumpPoint != null) {
-                    int newG = current.g + getDistance(current.coord, jumpPoint);
+                    int newG = current.g + getDistance(current.coordinate, jumpPoint);
                     Node neighbor = allNodes.computeIfAbsent(jumpPoint, Node::new);
 
                     if (newG < neighbor.g) {
@@ -52,45 +52,45 @@ public record JpsPathFinder(SimulationMap map) implements PathFinder {
         return Collections.emptyList();
     }
 
-    private Coordinate jump(Coordinate current, Coordinate dir, Coordinate target, SimulationMap map) {
+    private Coordinate jump(Coordinate current, Coordinate dir, Coordinate target, SimulationMap simulationMap) {
         Coordinate next = new Coordinate(current.x() + dir.x(), current.y() + dir.y());
 
-        if (!map.isWithinBounds(next) || !isPassable(map, next, target)) return null;
+        if (!simulationMap.isWithinBounds(next) || !isPassable(simulationMap, next, target)) return null;
         if (next.equals(target)) return next;
-        if (hasForcedNeighbor(next, dir, map)) return next;
+        if (hasForcedNeighbor(next, dir, simulationMap)) return next;
 
         if (dir.x() != 0 && dir.y() != 0) {
-            if (jump(next, new Coordinate(dir.x(), 0), target, map) != null ||
-                    jump(next, new Coordinate(0, dir.y()), target, map) != null) {
+            if (jump(next, new Coordinate(dir.x(), 0), target, simulationMap) != null ||
+                    jump(next, new Coordinate(0, dir.y()), target, simulationMap) != null) {
                 return next;
             }
         }
 
-        return jump(next, dir, target, map);
+        return jump(next, dir, target, simulationMap);
     }
 
-    private boolean hasForcedNeighbor(Coordinate c, Coordinate dir, SimulationMap map) {
+    private boolean hasForcedNeighbor(Coordinate c, Coordinate dir, SimulationMap simulationMap) {
         int x = c.x(), y = c.y(), dx = dir.x(), dy = dir.y();
 
         if (dx != 0 && dy == 0) { // Горизонталь
-            return (isBlocked(map, x, y + 1) && !isBlocked(map, x + dx, y + 1)) ||
-                    (isBlocked(map, x, y - 1) && !isBlocked(map, x + dx, y - 1));
+            return (isBlocked(simulationMap, x, y + 1) && !isBlocked(simulationMap, x + dx, y + 1)) ||
+                    (isBlocked(simulationMap, x, y - 1) && !isBlocked(simulationMap, x + dx, y - 1));
         } else if (dx == 0 && dy != 0) { // Вертикаль
-            return (isBlocked(map, x + 1, y) && !isBlocked(map, x + 1, y + dy)) ||
-                    (isBlocked(map, x - 1, y) && !isBlocked(map, x - 1, y + dy));
+            return (isBlocked(simulationMap, x + 1, y) && !isBlocked(simulationMap, x + 1, y + dy)) ||
+                    (isBlocked(simulationMap, x - 1, y) && !isBlocked(simulationMap, x - 1, y + dy));
         } else { // Диагональ
-            return (isBlocked(map, x - dx, y) && !isBlocked(map, x - dx, y + dy)) ||
-                    (isBlocked(map, x, y - dy) && !isBlocked(map, x + dx, y - dy));
+            return (isBlocked(simulationMap, x - dx, y) && !isBlocked(simulationMap, x - dx, y + dy)) ||
+                    (isBlocked(simulationMap, x, y - dy) && !isBlocked(simulationMap, x + dx, y - dy));
         }
     }
 
-    private boolean isBlocked(SimulationMap map, int x, int y) {
+    private boolean isBlocked(SimulationMap simulationMap, int x, int y) {
         Coordinate c = new Coordinate(x, y);
-        return !map.isWithinBounds(c) || map.getEntity(c).isPresent();
+        return !simulationMap.isWithinBounds(c) || simulationMap.getEntity(c).isPresent();
     }
 
-    private boolean isPassable(SimulationMap map, Coordinate c, Coordinate target) {
-        return map.getEntity(c).isEmpty() || c.equals(target);
+    private boolean isPassable(SimulationMap simulationMap, Coordinate c, Coordinate target) {
+        return simulationMap.getEntity(c).isEmpty() || c.equals(target);
     }
 
     private int getDistance(Coordinate a, Coordinate b) {
@@ -102,8 +102,8 @@ public record JpsPathFinder(SimulationMap map) implements PathFinder {
         Node current = targetNode;
 
         while (current.parent != null) {
-            Coordinate end = current.coord;
-            Coordinate start = current.parent.coord;
+            Coordinate end = current.coordinate;
+            Coordinate start = current.parent.coordinate;
             fillLine(fullPath, end, start);
             current = current.parent;
         }
@@ -130,16 +130,16 @@ public record JpsPathFinder(SimulationMap map) implements PathFinder {
     }
 
     private static class Node {
-        final Coordinate coord;
+        final Coordinate coordinate;
         Node parent;
         int g = Integer.MAX_VALUE, h, f;
 
         Node(Coordinate c) {
-            this.coord = c;
+            this.coordinate = c;
         }
 
         Node(Coordinate c, Node p, int g, int h) {
-            this.coord = c;
+            this.coordinate = c;
             this.parent = p;
             this.g = g;
             this.h = h;

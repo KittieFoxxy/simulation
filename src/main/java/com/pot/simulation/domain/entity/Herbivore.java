@@ -16,8 +16,8 @@ public class Herbivore extends Creature {
         super(SPEED, HEALTH);
     }
 
-    public void makeMove(SimulationMap map, PathFinder pathFinder) {
-        Optional<List<Coordinate>> foundPath = findNearestPreyCoordinate(map, Grass.class)
+    public void makeMove(SimulationMap simulationMap, PathFinder pathFinder) {
+        Optional<List<Coordinate>> foundPath = findNearestPreyCoordinate(simulationMap, Grass.class)
                 .map(preyCoordinate -> pathFinder.find(this.coordinate, preyCoordinate))
                 .filter(path -> !path.isEmpty())
                 .findFirst();
@@ -25,10 +25,10 @@ public class Herbivore extends Creature {
             if (!path.isEmpty()) {
                 int stepIndex = Math.min(this.speed, path.size()) - 1;
                 Coordinate nextStep = path.get(stepIndex);
-                if (map.getEntity(nextStep).isEmpty()) {
-                    makeStep(map, nextStep);
-                } else if (map.getEntity(nextStep).get() instanceof Grass grass) {
-                    eat(map, nextStep, grass);
+                if (simulationMap.getEntity(nextStep).isEmpty()) {
+                    makeStep(simulationMap, nextStep);
+                } else if (simulationMap.getEntity(nextStep).get() instanceof Grass grass) {
+                    eat(simulationMap, nextStep, grass);
                     setHungryLevel(-1);
                     setHealth(HEALTH);
                 }

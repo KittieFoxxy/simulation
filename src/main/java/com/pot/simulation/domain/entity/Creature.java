@@ -19,10 +19,10 @@ public abstract class Creature extends Entity {
         this.health = health;
     }
 
-    public abstract void makeMove(SimulationMap map, PathFinder pathFinder);
+    public abstract void makeMove(SimulationMap simulationMap, PathFinder pathFinder);
 
-    public Stream<Coordinate> findNearestPreyCoordinate(SimulationMap map, Class<? extends Entity> type) {
-        return map.findEntityCoordinates(type)
+    public Stream<Coordinate> findNearestPreyCoordinate(SimulationMap simulationMap, Class<? extends Entity> type) {
+        return simulationMap.findEntityCoordinates(type)
                 .sorted(Comparator.comparingDouble(this::distance));
     }
 
@@ -33,18 +33,18 @@ public abstract class Creature extends Entity {
         return Math.sqrt(Math.pow(coordinate.x() - target.x(), 2) + Math.pow(coordinate.y() - target.y(), 2));
     }
 
-    protected void makeStep(SimulationMap map, Coordinate to) {
-        map.removeEntity(coordinate, this);
-        map.addEntity(to, this);
+    protected void makeStep(SimulationMap simulationMap, Coordinate to) {
+        simulationMap.removeEntity(coordinate, this);
+        simulationMap.addEntity(to, this);
         coordinate = to;
     }
 
-    protected void eat(SimulationMap map, Coordinate to, Entity prey) {
-        map.getEntity(to).ifPresentOrElse(entity -> {
+    protected void eat(SimulationMap simulationMap, Coordinate to, Entity prey) {
+        simulationMap.getEntity(to).ifPresentOrElse(entity -> {
                     if (entity.equals(prey)) {
-                        map.removeEntity(to, entity);
-                        map.removeEntity(coordinate, this);
-                        map.addEntity(to, this);
+                        simulationMap.removeEntity(to, entity);
+                        simulationMap.removeEntity(coordinate, this);
+                        simulationMap.addEntity(to, this);
                         coordinate = to;
                     }
                 },

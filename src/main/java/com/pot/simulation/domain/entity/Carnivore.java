@@ -17,21 +17,21 @@ public class Carnivore extends Creature {
         super(SPEED, HEALTH);
     }
 
-    public void makeMove(SimulationMap map, PathFinder pathFinder) {
-        Optional<List<Coordinate>> foundPath = findNearestPreyCoordinate(map, Herbivore.class)
+    public void makeMove(SimulationMap simulationMap, PathFinder pathFinder) {
+        Optional<List<Coordinate>> foundPath = findNearestPreyCoordinate(simulationMap, Herbivore.class)
                 .map(preyCoordinate -> pathFinder.find(this.coordinate, preyCoordinate))
                 .filter(path -> !path.isEmpty())
                 .findFirst();
         foundPath.ifPresent(path -> {
             int stepIndex = Math.min(this.speed, path.size()) - 1;
             Coordinate nextStep = path.get(stepIndex);
-            if (map.getEntity(nextStep).isEmpty()) {
-                makeStep(map, nextStep);
-            } else if (map.getEntity(nextStep).get() instanceof Herbivore herbivore) {
-                makeStep(map, path.get(Math.max(0, stepIndex - 1)));
+            if (simulationMap.getEntity(nextStep).isEmpty()) {
+                makeStep(simulationMap, nextStep);
+            } else if (simulationMap.getEntity(nextStep).get() instanceof Herbivore herbivore) {
+                makeStep(simulationMap, path.get(Math.max(0, stepIndex - 1)));
                 attack(herbivore);
                 if (herbivore.health() == 0) {
-                    eat(map, nextStep, herbivore);
+                    eat(simulationMap, nextStep, herbivore);
                     setHungryLevel(-1);
                     setHealth(HEALTH);
                 }

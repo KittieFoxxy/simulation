@@ -9,19 +9,19 @@ import java.util.List;
 
 public class MakeMoveAction implements Action {
 
-    private final SimulationMap map;
+    private final SimulationMap simulationMap;
     private final PathFinder pathFinder;
 
-    public MakeMoveAction(SimulationMap map) {
-        this.map = map;
-        this.pathFinder = new JpsPathFinder(map);
+    public MakeMoveAction(SimulationMap simulationMap) {
+        this.simulationMap = simulationMap;
+        this.pathFinder = new JpsPathFinder(simulationMap);
     }
 
     public void execute() {
-        List<Creature> creatures = map.findEntities(Creature.class);
+        List<Creature> creatures = simulationMap.findEntities(Creature.class);
         for (Creature creature : creatures) {
-            if (map.contains(creature)) {
-                creature.makeMove(map, pathFinder);
+            if (simulationMap.contains(creature)) {
+                creature.makeMove(simulationMap, pathFinder);
             }
         }
     }

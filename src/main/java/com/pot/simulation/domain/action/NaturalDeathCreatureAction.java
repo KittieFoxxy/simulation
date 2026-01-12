@@ -5,14 +5,14 @@ import com.pot.simulation.domain.map.SimulationMap;
 
 import java.util.List;
 
-public record NaturalDeathCreatureAction(SimulationMap map) implements Action {
+public record NaturalDeathCreatureAction(SimulationMap simulationMap) implements Action {
 
     @Override
     public void execute() {
-        List<Creature> creatures = map.findEntities(Creature.class);
+        List<Creature> creatures = simulationMap.findEntities(Creature.class);
         for (Creature creature : creatures) {
             if (creature.health() == 0) {
-                map.removeEntity(creature.coordinate(), creature);
+                simulationMap.removeEntity(creature.coordinate(), creature);
             }
         }
     }

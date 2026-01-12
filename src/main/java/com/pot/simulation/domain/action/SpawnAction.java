@@ -9,14 +9,14 @@ import java.util.List;
 
 public class SpawnAction extends BaseSpawnAction implements Action {
 
-    private final SimulationMap map;
+    private final SimulationMap simulationMap;
     private final Class<? extends Entity> entityType;
     private final int quantity;
 
-    public SpawnAction(SimulationMap map,
+    public SpawnAction(SimulationMap simulationMap,
                        Class<? extends Entity> entityType,
                        int quantity) {
-        this.map = map;
+        this.simulationMap = simulationMap;
         this.entityType = entityType;
         this.quantity = quantity;
     }
@@ -24,10 +24,10 @@ public class SpawnAction extends BaseSpawnAction implements Action {
 
     @Override
     public void execute() {
-        List<Coordinate> emptyCoordinates = map.getEmptyCoordinates();
+        List<Coordinate> emptyCoordinates = simulationMap.getEmptyCoordinates();
         Collections.shuffle(emptyCoordinates);
         for (int q = 0; q < quantity; q++) {
-            spawn(entityType, map, emptyCoordinates);
+            spawn(entityType, simulationMap, emptyCoordinates);
         }
     }
 }

@@ -15,16 +15,16 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class RecoveryEntityAction extends BaseSpawnAction implements Action {
 
-    private final SimulationMap map;
+    private final SimulationMap simulationMap;
     private final Class<? extends Entity> creatureType;
     private final double chance;
     private final int maxCreatures;
 
-    public RecoveryEntityAction(SimulationMap map,
+    public RecoveryEntityAction(SimulationMap simulationMap,
                                 Class<? extends Entity> creatureType,
                                 double chance,
                                 int maxCreatures) {
-        this.map = map;
+        this.simulationMap = simulationMap;
         this.creatureType = creatureType;
         this.chance = chance;
         this.maxCreatures = maxCreatures;
@@ -35,14 +35,14 @@ public class RecoveryEntityAction extends BaseSpawnAction implements Action {
         if (chance < 0 || chance > 1) {
             throw new IllegalStateException("chance must be between 0 and 1");
         }
-        if (maxCreatures < 0 || maxCreatures > map.height() * map.width()) {
-            throw new IllegalStateException("maxCreatures must be between 0 and not more map size");
+        if (maxCreatures < 0 || maxCreatures > simulationMap.height() * simulationMap.width()) {
+            throw new IllegalStateException("maxCreatures must be between 0 and not more simulationMap size");
         }
-        List<Coordinate> emptyCoordinates = map.getEmptyCoordinates();
+        List<Coordinate> emptyCoordinates = simulationMap.getEmptyCoordinates();
         Collections.shuffle(emptyCoordinates);
         for (int i = 0; i < maxCreatures; i++) {
             if (ThreadLocalRandom.current().nextDouble() <= chance) {
-                spawn(creatureType, map, emptyCoordinates);
+                spawn(creatureType, simulationMap, emptyCoordinates);
             }
         }
     }
